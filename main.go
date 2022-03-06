@@ -9,6 +9,7 @@ func main() {
 	app := cdk.NewApp(nil)
 
 	vpc, publicSubnet1 := stacks.CdkNetworkStack(app, "CdkNetworkStack", &cdk.StackProps{})
+	stacks.CdkEc2Stack(app, "CdkEc2Stack", &stacks.CdkEc2StackProps{Vpc: vpc, PublicSubnet1: publicSubnet1})
 
 	app.Synth(nil)
 }
