@@ -1,6 +1,7 @@
 package stacks
 
 import (
+	"github.com/Fiddler25/cdk-go/utils"
 	cdk "github.com/aws/aws-cdk-go/awscdk/v2"
 	ec2 "github.com/aws/aws-cdk-go/awscdk/v2/awsec2"
 	rds "github.com/aws/aws-cdk-go/awscdk/v2/awsrds"
@@ -36,7 +37,7 @@ func CdkDb(scope constructs.Construct, id string, props *CdkDbProps) {
 		DbSubnetGroupName:    subnetgroup.Ref(),
 		Engine:               jsii.String("mysql"),
 		MasterUsername:       jsii.String("root"),
-		MasterUserPassword:   jsii.String(CdkEnvNames().MasterUserPassword),
+		MasterUserPassword:   jsii.String(utils.EnvNames().MasterUserPassword),
 		MultiAz:              true,
 		Port:                 jsii.String("3306"),
 		VpcSecurityGroups:    jsii.Strings(*props.SecurityGroupRds.AttrGroupId()),

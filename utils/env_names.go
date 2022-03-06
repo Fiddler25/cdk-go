@@ -1,4 +1,4 @@
-package stacks
+package utils
 
 import (
 	"log"
@@ -7,18 +7,18 @@ import (
 	"github.com/joho/godotenv"
 )
 
-type EnvNames struct {
+type Env struct {
 	KeyName            string
 	MasterUserPassword string
 }
 
-func CdkEnvNames() EnvNames {
+func EnvNames() Env {
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file", err)
 	}
 
-	return EnvNames{
+	return Env{
 		KeyName:            os.Getenv("KEY_NAME"),
 		MasterUserPassword: os.Getenv("MASTER_USER_PASSWORD"),
 	}

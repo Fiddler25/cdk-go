@@ -2,6 +2,7 @@ package stacks
 
 import (
 	"encoding/base64"
+	"github.com/Fiddler25/cdk-go/utils"
 	"os"
 
 	cdk "github.com/aws/aws-cdk-go/awscdk/v2"
@@ -65,7 +66,7 @@ func CdkEc2(scope constructs.Construct, id string, props *CdkEc2Props) ec2.CfnSe
 		InstanceType:     jsii.String("t2.micro"),
 		SubnetId:         props.PublicSubnet1.Ref(),
 		SecurityGroupIds: jsii.Strings(*webSg.AttrGroupId()),
-		KeyName:          jsii.String(CdkEnvNames().KeyName),
+		KeyName:          jsii.String(utils.EnvNames().KeyName),
 		UserData:         jsii.String(getUserData()),
 		Tags:             &[]*cdk.CfnTag{{Key: jsii.String("Name"), Value: jsii.String("WebServer1")}},
 	})
