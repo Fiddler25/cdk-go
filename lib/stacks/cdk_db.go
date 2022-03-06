@@ -8,14 +8,14 @@ import (
 	"github.com/aws/jsii-runtime-go"
 )
 
-type CdkDbStackProps struct {
+type CdkDbProps struct {
 	cdk.StackProps
 	PrivateSubnet1   ec2.CfnSubnet
 	PrivateSubnet2   ec2.CfnSubnet
 	SecurityGroupRds ec2.CfnSecurityGroup
 }
 
-func CdkDbStack(scope constructs.Construct, id string, props *CdkDbStackProps) {
+func CdkDb(scope constructs.Construct, id string, props *CdkDbProps) {
 	var sprops cdk.StackProps
 	if props != nil {
 		sprops = props.StackProps

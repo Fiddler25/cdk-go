@@ -10,13 +10,13 @@ import (
 	"github.com/aws/jsii-runtime-go"
 )
 
-type CdkEc2StackProps struct {
+type CdkEc2Props struct {
 	cdk.StackProps
 	Vpc           ec2.CfnVPC
 	PublicSubnet1 ec2.CfnSubnet
 }
 
-func CdkEc2Stack(scope constructs.Construct, id string, props *CdkEc2StackProps) ec2.CfnSecurityGroup {
+func CdkEc2(scope constructs.Construct, id string, props *CdkEc2Props) ec2.CfnSecurityGroup {
 	var sprops cdk.StackProps
 	if props != nil {
 		sprops = props.StackProps

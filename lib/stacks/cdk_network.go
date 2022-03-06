@@ -7,7 +7,7 @@ import (
 	"github.com/aws/jsii-runtime-go"
 )
 
-func CdkNetworkStack(scope constructs.Construct, id string, props *cdk.StackProps) (
+func CdkNetwork(scope constructs.Construct, id string, props *cdk.StackProps) (
 	ec2.CfnVPC,
 	ec2.CfnSubnet,
 	ec2.CfnSubnet,
