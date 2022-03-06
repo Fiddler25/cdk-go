@@ -16,7 +16,7 @@ type CdkEc2StackProps struct {
 	PublicSubnet1 ec2.CfnSubnet
 }
 
-func CdkEc2Stack(scope constructs.Construct, id string, props *CdkEc2StackProps) {
+func CdkEc2Stack(scope constructs.Construct, id string, props *CdkEc2StackProps) ec2.CfnSecurityGroup {
 	var sprops cdk.StackProps
 	if props != nil {
 		sprops = props.StackProps
@@ -44,6 +44,21 @@ func CdkEc2Stack(scope constructs.Construct, id string, props *CdkEc2StackProps)
 		},
 	})
 
+	// SecurityGroup for RDS
+	rdsSg := ec2.NewCfnSecurityGroup(stack, jsii.String("SecurityGroupRds"), &ec2.CfnSecurityGroupProps{
+		GroupName:        jsii.String("Rds-SG-1"),
+		GroupDescription: jsii.String("for Rds"),
+		VpcId:            props.Vpc.Ref(),
+		SecurityGroupIngress: &[]*ec2.CfnSecurityGroup_IngressProperty{
+			{
+				IpProtocol:            jsii.String("tcp"),
+				FromPort:              jsii.Number(3306),
+				ToPort:                jsii.Number(3306),
+				SourceSecurityGroupId: webSg.AttrGroupId(),
+			},
+		},
+	})
+
 	// Instance
 	ec2.NewCfnInstance(stack, jsii.String("Ec2Instance1"), &ec2.CfnInstanceProps{
 		ImageId:          jsii.String("ami-03d79d440297083e3"),
@@ -54,6 +69,8 @@ func CdkEc2Stack(scope constructs.Construct, id string, props *CdkEc2StackProps)
 		UserData:         jsii.String(getUserData()),
 		Tags:             &[]*cdk.CfnTag{{Key: jsii.String("Name"), Value: jsii.String("WebServer1")}},
 	})
+
+	return rdsSg
 }
 
 func getUserData() string {

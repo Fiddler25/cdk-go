@@ -7,7 +7,12 @@ import (
 	"github.com/aws/jsii-runtime-go"
 )
 
-func CdkNetworkStack(scope constructs.Construct, id string, props *cdk.StackProps) (ec2.CfnVPC, ec2.CfnSubnet) {
+func CdkNetworkStack(scope constructs.Construct, id string, props *cdk.StackProps) (
+	ec2.CfnVPC,
+	ec2.CfnSubnet,
+	ec2.CfnSubnet,
+	ec2.CfnSubnet,
+) {
 	var sprops cdk.StackProps
 	if props != nil {
 		sprops = *props
@@ -38,14 +43,14 @@ func CdkNetworkStack(scope constructs.Construct, id string, props *cdk.StackProp
 	})
 
 	// PrivateSubnet
-	ec2.NewCfnSubnet(stack, jsii.String("PrivateSubnet1"), &ec2.CfnSubnetProps{
+	privateSubnet1 := ec2.NewCfnSubnet(stack, jsii.String("PrivateSubnet1"), &ec2.CfnSubnetProps{
 		AvailabilityZone: jsii.String("ap-northeast-1a"),
 		CidrBlock:        jsii.String("10.0.2.0/24"),
 		VpcId:            vpc.Ref(),
 		Tags:             &[]*cdk.CfnTag{{Key: jsii.String("Name"), Value: jsii.String("PrivateSubnet1")}},
 	})
 
-	ec2.NewCfnSubnet(stack, jsii.String("PrivateSubnet2"), &ec2.CfnSubnetProps{
+	privateSubnet2 := ec2.NewCfnSubnet(stack, jsii.String("PrivateSubnet2"), &ec2.CfnSubnetProps{
 		AvailabilityZone: jsii.String("ap-northeast-1c"),
 		CidrBlock:        jsii.String("10.0.3.0/24"),
 		VpcId:            vpc.Ref(),
@@ -78,5 +83,5 @@ func CdkNetworkStack(scope constructs.Construct, id string, props *cdk.StackProp
 		SubnetId:     publicSubnet1.Ref(),
 	})
 
-	return vpc, publicSubnet1
+	return vpc, publicSubnet1, privateSubnet1, privateSubnet2
 }

@@ -8,8 +8,9 @@ import (
 func main() {
 	app := cdk.NewApp(nil)
 
-	vpc, publicSubnet1 := stacks.CdkNetworkStack(app, "CdkNetworkStack", &cdk.StackProps{})
-	stacks.CdkEc2Stack(app, "CdkEc2Stack", &stacks.CdkEc2StackProps{Vpc: vpc, PublicSubnet1: publicSubnet1})
+	vpc, publicSubnet1, privateSubnet1, privateSubnet2 := stacks.CdkNetworkStack(app, "CdkNetworkStack", &cdk.StackProps{})
+	securityGroupRds := stacks.CdkEc2Stack(app, "CdkEc2Stack", &stacks.CdkEc2StackProps{Vpc: vpc, PublicSubnet1: publicSubnet1})
+	stacks.CdkDbStack(app, "CdkDbStack", &stacks.CdkDbStackProps{PrivateSubnet1: privateSubnet1, PrivateSubnet2: privateSubnet2, SecurityGroupRds: securityGroupRds})
 
 	app.Synth(nil)
 }

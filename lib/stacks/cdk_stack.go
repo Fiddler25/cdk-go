@@ -8,7 +8,8 @@ import (
 )
 
 type EnvNames struct {
-	KeyName string
+	KeyName            string
+	MasterUserPassword string
 }
 
 func CdkEnvNames() EnvNames {
@@ -18,6 +19,7 @@ func CdkEnvNames() EnvNames {
 	}
 
 	return EnvNames{
-		KeyName: os.Getenv("KEY_NAME"),
+		KeyName:            os.Getenv("KEY_NAME"),
+		MasterUserPassword: os.Getenv("MASTER_USER_PASSWORD"),
 	}
 }
