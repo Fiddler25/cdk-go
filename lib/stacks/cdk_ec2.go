@@ -47,7 +47,7 @@ func CdkEc2(scope constructs.Construct, id string, props *CdkEc2Props) ec2.CfnSe
 
 	// SecurityGroup for RDS
 	rdsSg := ec2.NewCfnSecurityGroup(stack, jsii.String("SecurityGroupRds"), &ec2.CfnSecurityGroupProps{
-		GroupName:        jsii.String("Rds-SG-1"),
+		GroupName:        jsii.String("Rds-SG"),
 		GroupDescription: jsii.String("for Rds"),
 		VpcId:            props.Vpc.Ref(),
 		SecurityGroupIngress: &[]*ec2.CfnSecurityGroup_IngressProperty{

@@ -23,9 +23,9 @@ func CdkDb(scope constructs.Construct, id string, props *CdkDbProps) {
 	}
 	stack := cdk.NewStack(scope, &id, &sprops)
 
-	subnetgroup := rds.NewCfnDBSubnetGroup(stack, jsii.String("SubnetGroup"), &rds.CfnDBSubnetGroupProps{
-		DbSubnetGroupName:        jsii.String("subnetgroup"),
-		DbSubnetGroupDescription: jsii.String("subnetgroup"),
+	subnetGroup := rds.NewCfnDBSubnetGroup(stack, jsii.String("SubnetGroup"), &rds.CfnDBSubnetGroupProps{
+		DbSubnetGroupName:        jsii.String("SubnetGroup"),
+		DbSubnetGroupDescription: jsii.String("SubnetGroup"),
 		SubnetIds:                jsii.Strings(*props.PrivateSubnet1.Ref(), *props.PrivateSubnet2.Ref()),
 	})
 
@@ -34,7 +34,7 @@ func CdkDb(scope constructs.Construct, id string, props *CdkDbProps) {
 		AllocatedStorage:     jsii.String("100"),
 		DbInstanceIdentifier: jsii.String("database"),
 		DbName:               jsii.String("wordpress"),
-		DbSubnetGroupName:    subnetgroup.Ref(),
+		DbSubnetGroupName:    subnetGroup.Ref(),
 		Engine:               jsii.String("mysql"),
 		MasterUsername:       jsii.String("root"),
 		MasterUserPassword:   jsii.String(utils.EnvNames().MasterUserPassword),
