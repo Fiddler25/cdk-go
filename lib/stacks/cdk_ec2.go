@@ -75,12 +75,12 @@ func CdkEc2(scope constructs.Construct, id string, props *CdkEc2Props) ec2.CfnSe
 }
 
 func getUserData() string {
-	dir, err := os.UserHomeDir()
+	dir, err := os.Getwd()
 	if err != nil {
 		panic(err)
 	}
 
-	f, err := os.ReadFile(dir + "/workspace/App/cdk-go/bin/script/user_data.sh")
+	f, err := os.ReadFile(dir + "/bin/script/user_data.sh")
 	if err != nil {
 		panic(err)
 	}
