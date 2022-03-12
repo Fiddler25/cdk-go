@@ -15,7 +15,13 @@ type CdkEc2Props struct {
 	cdk.StackProps
 	Vpc           ec2.CfnVPC
 	PublicSubnet1 ec2.CfnSubnet
+	PublicSubnet2 ec2.CfnSubnet
 }
+
+const (
+	imageId      string = "ami-03d79d440297083e3"
+	instanceType string = "t2.micro"
+)
 
 func CdkEc2(scope constructs.Construct, id string, props *CdkEc2Props) ec2.CfnSecurityGroup {
 	var sprops cdk.StackProps
@@ -62,13 +68,23 @@ func CdkEc2(scope constructs.Construct, id string, props *CdkEc2Props) ec2.CfnSe
 
 	// Instance
 	ec2.NewCfnInstance(stack, jsii.String("Ec2Instance1"), &ec2.CfnInstanceProps{
-		ImageId:          jsii.String("ami-03d79d440297083e3"),
-		InstanceType:     jsii.String("t2.micro"),
+		ImageId:          jsii.String(imageId),
+		InstanceType:     jsii.String(instanceType),
 		SubnetId:         props.PublicSubnet1.Ref(),
 		SecurityGroupIds: jsii.Strings(*webSg.AttrGroupId()),
 		KeyName:          jsii.String(utils.EnvNames().KeyName),
 		UserData:         jsii.String(getUserData()),
 		Tags:             &[]*cdk.CfnTag{{Key: jsii.String("Name"), Value: jsii.String("WebServer1")}},
+	})
+
+	ec2.NewCfnInstance(stack, jsii.String("Ec2Instance2"), &ec2.CfnInstanceProps{
+		ImageId:          jsii.String(imageId),
+		InstanceType:     jsii.String(instanceType),
+		SubnetId:         props.PublicSubnet2.Ref(),
+		SecurityGroupIds: jsii.Strings(*webSg.AttrGroupId()),
+		KeyName:          jsii.String(utils.EnvNames().KeyName),
+		UserData:         jsii.String(getUserData()),
+		Tags:             &[]*cdk.CfnTag{{Key: jsii.String("Name"), Value: jsii.String("WebServer2")}},
 	})
 
 	return rdsSg

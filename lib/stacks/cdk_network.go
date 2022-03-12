@@ -12,6 +12,7 @@ func CdkNetwork(scope constructs.Construct, id string, props *cdk.StackProps) (
 	ec2.CfnSubnet,
 	ec2.CfnSubnet,
 	ec2.CfnSubnet,
+	ec2.CfnSubnet,
 ) {
 	var sprops cdk.StackProps
 	if props != nil {
@@ -34,7 +35,7 @@ func CdkNetwork(scope constructs.Construct, id string, props *cdk.StackProps) (
 		Tags:                &[]*cdk.CfnTag{{Key: jsii.String("Name"), Value: jsii.String("PublicSubnet1")}},
 	})
 
-	ec2.NewCfnSubnet(stack, jsii.String("PublicSubnet2"), &ec2.CfnSubnetProps{
+	publicSubnet2 := ec2.NewCfnSubnet(stack, jsii.String("PublicSubnet2"), &ec2.CfnSubnetProps{
 		AvailabilityZone:    jsii.String("ap-northeast-1c"),
 		CidrBlock:           jsii.String("10.0.1.0/24"),
 		VpcId:               vpc.Ref(),
@@ -83,5 +84,10 @@ func CdkNetwork(scope constructs.Construct, id string, props *cdk.StackProps) (
 		SubnetId:     publicSubnet1.Ref(),
 	})
 
-	return vpc, publicSubnet1, privateSubnet1, privateSubnet2
+	ec2.NewCfnSubnetRouteTableAssociation(stack, jsii.String("RouteTableAssociation2"), &ec2.CfnSubnetRouteTableAssociationProps{
+		RouteTableId: routeTable.Ref(),
+		SubnetId:     publicSubnet2.Ref(),
+	})
+
+	return vpc, publicSubnet1, publicSubnet2, privateSubnet1, privateSubnet2
 }
